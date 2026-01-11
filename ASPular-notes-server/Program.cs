@@ -1,14 +1,25 @@
 using ASPular_notes_server;
 using Microsoft.EntityFrameworkCore;
 
+var allowLocalHostOrigin = "_allowLocalHostOrigin";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy(name: allowLocalHostOrigin, policy =>
+	{
+		policy.WithOrigins("http://localhost:4200");
+	});
+});
 
 builder.Services.AddDbContext<NoteDb>(opt => opt.UseInMemoryDatabase("NoteDb"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
+app.UseCors(allowLocalHostOrigin);
 
 if (app.Environment.IsDevelopment())
 {
