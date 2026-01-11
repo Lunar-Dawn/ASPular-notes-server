@@ -48,4 +48,18 @@ notesGroup.MapPost("/", async (Note note, NoteDb db) =>
 	return Results.Created($"/notes/{note.Id}", note);
 });
 
+notesGroup.MapPut("/{id:int}", async (int id, Note input, NoteDb db) =>
+{
+	var note = await db.Notes.FindAsync(id);
+	if (note is null)
+		return Results.NotFound();
+
+	note.Title = input.Title;
+	note.Content = input.Content;
+
+	await db.SaveChangesAsync();
+
+	return Results.NoContent();
+});
+
 app.Run();
