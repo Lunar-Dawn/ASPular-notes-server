@@ -56,6 +56,7 @@ notesGroup.MapPut("/{id:int}", async (int id, Note input, NoteDb db) =>
 
 	note.Title = input.Title;
 	note.Content = input.Content;
+	note.Tags = input.Tags;
 
 	await db.SaveChangesAsync();
 
