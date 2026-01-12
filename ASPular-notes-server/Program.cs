@@ -62,4 +62,16 @@ notesGroup.MapPut("/{id:int}", async (int id, Note input, NoteDb db) =>
 	return Results.NoContent();
 });
 
+notesGroup.MapDelete("/{id}", async (int id, NoteDb db) =>
+{
+	if (await db.Notes.FindAsync(id) is { } note)
+	{
+		db.Notes.Remove(note);
+		await db.SaveChangesAsync();
+		return Results.NoContent();
+	}
+
+	return Results.NotFound();
+});
+
 app.Run();
