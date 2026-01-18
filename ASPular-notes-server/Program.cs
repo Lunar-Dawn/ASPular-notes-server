@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
 	});
 });
 
-builder.Services.AddDbContext<NoteDb>(opt => opt.UseInMemoryDatabase("NoteDb"));
+builder.Services.AddDbContext<NoteDb>(opt => opt.UseSqlite("Data Source=notes.db"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
